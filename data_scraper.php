@@ -24,6 +24,18 @@ if($results->num_rows>0)
             $extension_name=$ex_name->plaintext;
             echo "Extension Name: ".$extension_name.'<br>';
 
+        foreach($html->find('div[class=fileinfo]') as $abouts)
+            $about_info=trim($abouts->plaintext);
+            // echo 'ABOUT : '.$about_info.'<br>'; 
+            
+        foreach($html->find('table[class=programs]') as $platforms)
+            echo "Prgrams Data : ".$platforms."<br>";
+
+
+        // foreach($html->find('h2[!class]') as $filetype)
+        //      $ftyp=trim($filetype->plaintext);
+        //      echo $ftyp.'<br>';
+
 
 
         $DOM= new DOMDocument(true);
@@ -35,6 +47,9 @@ if($results->num_rows>0)
         $cat=null;
         $format=null;
         $popularity=null;
+        // $linux=null;
+        // $win=null;
+        // $mac=null;
 
         
     
@@ -43,7 +58,7 @@ if($results->num_rows>0)
         {
             if(preg_match('//',$elements->item($i)->nodeValue,$match))
             {
-                $data=$elements->item($i)->nodeValue;
+                $data=trim($elements->item($i)->nodeValue);
                 
 
                 
@@ -60,6 +75,7 @@ if($results->num_rows>0)
                 if($ins_chk==2)
                 {
                     $popularity=$data;
+                    
                     echo "Ratings names : ".$popularity.'<br>'; //Place insert Query for popularity table in next line.
 
                     // $qury=$con->prepare("INSERT INTO ")
@@ -82,6 +98,35 @@ if($results->num_rows>0)
                     $ins_chk=0;
                 }
 
+                // if($ins_chk==5)
+                // {
+                //     $prg=$data;
+                //     echo "Program names : ".$prg.'<br>';
+                //     $ins_chk=0;
+                // }
+
+                // if($ins_chk==6)
+                // {
+                //     $m_prg=$data;
+                //     echo "Mac_prohrams names : ".$m_prg.'<br>';
+                //     $ins_chk=0;
+                // }
+
+                // if($ins_chk==7)
+                // {
+                //     $lin_prg=$data;
+                //     echo "Linux_prohrams names : ".$lin_prg.'<br>';
+                //     $ins_chk=0;
+                // }
+
+                // if($ins_chk==8)
+                // {
+                //     $os_prg=$data;
+                //     echo "Os_ prohrams names : ".$os_prg.'<br>';
+                //     $ins_chk=0;
+                // }
+
+
                 
 
                 if($data=="Developer")
@@ -100,6 +145,30 @@ if($results->num_rows>0)
                 {
                     $ins_chk=4;
                 }
+                // if($data=="Windows")
+                // {
+                //     $win=$data;
+                //     echo "OS names : ".$win.'<br>';
+                //     $ins_chk=5;
+                // }
+                // if($data=="Mac")
+                // {
+                //     $mac=$data;
+                //     echo "Mac_prohrams names : ".$mac.'<br>';
+                //     $ins_chk=6;
+                // }
+                // if($data=="Linux")
+                // {
+                //     $linux=$data;
+                //     echo "Linux_prohrams names : ".$linux.'<br>';
+                //     $ins_chk=7;
+                // }
+                // if($data=="Windows" | $data=="Mac" | $data=="Linux"  )
+                // {
+                //     $os_is=$data;
+                //     echo"OS is: ".$os_is.'<br>';
+                //     $ins_chk=8;
+                // }
 
 
                 
@@ -128,10 +197,13 @@ if($results->num_rows>0)
             }
             if($developer!=null && $cat!=null && $format!=null && $popularity!=null)
                 {
+                    // $abt="Null";
+                    // $os="Null";
+                    // $os_prg="Null";
+                    // $prices="Null";
                     
-                    $abt="Null";
                     $qry=$con->prepare("INSERT INTO file_extensions(sub_url_id,exe_name,developer,category,format,about,rating) VALUES(?,?,?,?,?,?,?)");
-                    $qry->bind_param("sssssss",$row['sub_url_id'],$extension_name,$developer,$cat,$format,$abt,$popularity);
+                    $qry->bind_param("sssssss",$row['sub_url_id'],$extension_name,$developer,$cat,$format,$about_info,$popularity);
                     $qry->execute();
                     $qry->close();
                     echo"Row inserted <br>";
