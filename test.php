@@ -28,6 +28,8 @@ $typ_des="";
 $typ_num="";
 $typ_os="";
 $des_head="";
+$sptd_os="";
+$sptd_prgs="";
 
 foreach($html->find('h1') as $ex_name){
     echo $ex_name.'<br>';}
@@ -63,9 +65,21 @@ foreach($a->find('div[class=infoBox] p') as $element){
 
 
 
-foreach($a->find('table[class=programs]') as $description){
+foreach($a->find('table[class=programs]') as $software_info){
+    foreach($software_info->find('table[class=programs]') as $platformss){
+        foreach($platformss->find('td[class=platform]')as $supported_os){
+            echo $sptd_os=$platformss->plaintext;
+            echo"<br>";
+            foreach($supported_os->find('div[class=program]') as $supported_programs){
+
+                echo $sptd_prgs=$supported_programs->plaintext;
+                echo"<br>";
+
+            }
+        }
+    }
 // echo "Prgrams Data : ".$description.'<br>';
-    echo $typ_os=$description->plaintext;
+    echo $typ_os=$software_info->plaintext;
     echo"<br>";}
 
 
