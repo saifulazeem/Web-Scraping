@@ -57,7 +57,7 @@ foreach($a->find('h2[class=question]') as $qq){
 
 
 foreach($a->find('div[class=infoBox] p') as $element){
-    echo $typ_des=$element->plaintext;
+    echo $typ_des=$typ_des." ".$element->plaintext;
     echo"<br>";}
 
 // foreach($html->find('td[class=platform]') as $description)
@@ -66,20 +66,20 @@ foreach($a->find('div[class=infoBox] p') as $element){
 
 
 foreach($a->find('table[class=programs]') as $software_info){
-    foreach($software_info->find('table[class=programs]') as $platformss){
-        foreach($platformss->find('td[class=platform]')as $supported_os){
-            echo $sptd_os=$platformss->plaintext;
-            echo"<br>";
-            foreach($supported_os->find('div[class=program]') as $supported_programs){
+    // foreach($software_info->find('table[class=programs]') as $platformss){
+    //     foreach($platformss->find('td[class=platform]')as $supported_os){
+    //         echo $sptd_os=$platformss->plaintext;
+    //         echo"<br>";
+    //         foreach($supported_os->find('div[class=program]') as $supported_programs){
 
-                echo $sptd_prgs=$supported_programs->plaintext;
-                echo"<br>";
+    //             echo $sptd_prgs=$supported_programs->plaintext;
+    //             echo"<br>";
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 // echo "Prgrams Data : ".$description.'<br>';
-    echo $typ_os=$software_info->plaintext;
+    echo $typ_os=$typ_os." ".$software_info->plaintext;
     echo"<br>";}
 
 
@@ -91,6 +91,8 @@ foreach($a->find('table[class=programs]') as $software_info){
     $qrys->close();
         
     echo"Data Entered <br>";
+    $typ_os=null;
+    $typ_des=null;
 
 
 

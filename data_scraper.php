@@ -2,7 +2,7 @@
 
 include("simple_html_dom.php");
 include("connection.php");
-$query=$con->prepare("SELECT * FROM suburls");
+$query=$con->prepare("SELECT * FROM suburls WHERE status='0'");
 $query->execute();
 $results=$query->get_result();
 
@@ -20,16 +20,21 @@ if($results->num_rows>0)
 
         $html= new simple_html_dom();
         $html->load($output)->plaintext;
-        foreach($html->find('h1') as $ex_name)
-            $extension_name=$ex_name->plaintext;
-            echo "Extension Name: ".$extension_name.'<br>';
 
-        foreach($html->find('div[class=fileinfo]') as $abouts)
-            $about_info=trim($abouts->plaintext);
+        
+
+
+
+        foreach($html->find('h1') as $ex_name){
+            $extension_name=$ex_name->plaintext;
+            echo "Extension Name: ".$extension_name.'<br>';}
+
+        foreach($html->find('div[class=fileinfo]') as $abouts){
+            $about_info=trim($abouts->plaintext);}
             // echo 'ABOUT : '.$about_info.'<br>'; 
             
-        foreach($html->find('table[class=programs]') as $platforms)
-            echo "Prgrams Data : ".$platforms."<br>";
+        foreach($html->find('table[class=programs]') as $platforms){
+            echo "Prgrams Data : ".$platforms."<br>";}
 
 
         // foreach($html->find('h2[!class]') as $filetype)
@@ -218,7 +223,84 @@ if($results->num_rows>0)
             
         }
 
+        $typ_des="";
+        $typ_num="";
+        $typ_os="";
+        $des_head="";
+        $sptd_os="";
+        $sptd_prgs="";
 
+        foreach($html->find('h1') as $ex_name){
+            echo $ex_name.'<br>';}
+        
+        
+        
+        
+        foreach($html->find('section[class=ext]') as $a)
+        {
+        
+        
+        
+        foreach($a->find('h2[!class]') as $filetype){
+            // $ftyp=$filetype;
+            echo $typ_num=$filetype->plaintext;
+            echo"<br>";}
+        
+        // foreach($html->find('td') as $element)
+        //     echo $element.'<br>';
+        
+        
+        foreach($a->find('h2[class=question]') as $qq){
+            echo $des_head=$qq->plaintext;
+            echo"<br>";}
+        
+        
+        foreach($a->find('div[class=infoBox] p') as $element){
+            echo $typ_des=$typ_des." ".$element->plaintext;
+            echo"<br>";}
+        
+        // foreach($html->find('td[class=platform]') as $description)
+        // echo "OS name : ".$description.'<br>';
+        
+        
+        
+        foreach($a->find('table[class=programs]') as $software_info){
+            // foreach($software_info->find('table[class=programs]') as $platformss){
+            //     foreach($platformss->find('td[class=platform]')as $supported_os){
+            //         echo $sptd_os=$platformss->plaintext;
+            //         echo"<br>";
+            //         foreach($supported_os->find('div[class=program]') as $supported_programs){
+        
+            //             echo $sptd_prgs=$supported_programs->plaintext;
+            //             echo"<br>";
+        
+            //         }
+            //     }
+            // }
+        // echo "Prgrams Data : ".$description.'<br>';
+            echo $typ_os=$typ_os." ".$software_info->plaintext;
+            echo"<br>";}
+        
+        
+        
+        
+            $qrys=$con->prepare("INSERT INTO file_types(sub_url_id,types_name,type_des,typ_dec_head,os_info) VALUES(?,?,?,?,?)");
+            $qrys->bind_param("sssss",$row['sub_url_id'],$typ_num,$typ_des,$des_head,$typ_os);
+            $qrys->execute();
+            $qrys->close();
+                
+            echo"Data Entered <br>";
+            $typ_os=null;
+            $typ_des=null;
+            $idd=$row['sub_url_id'];
+        
+         $status_qry=$con->prepare("UPDATE suburls SET status='1' WHERE sub_url_id='".$idd."'");
+         $status_qry->execute();
+         $status_qry->close();
+             
+         echo"Status Updated <br>";
+        
+        }
 
 
 
