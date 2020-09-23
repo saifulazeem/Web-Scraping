@@ -1,6 +1,6 @@
 <?php
 
-$con=mysqli_connect("localhost","root","","fileinfo_database");
+$con=mysqli_connect("localhost","root","","application_db");
 
 if (mysqli_connect_error())
  {
