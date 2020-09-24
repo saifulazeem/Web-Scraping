@@ -5,7 +5,8 @@ include("connection.php");
 include("simple_html_dom.php");
 
 
-$my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0");
+// $my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0 AND ID<=5");
+$my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0 AND playstore=0 AND ID BETWEEN 20341 AND 20345");
 $my_qry->execute();
 $result=$my_qry->get_result();
 
@@ -16,7 +17,8 @@ if($result->num_rows>0) // Start if for Record Check
         while($row=$result->fetch_assoc())
         {
 
-            //Start Making Urls
+            //============ Start Making Urls ===============================
+
             $app_url=$row['play_store_id'];
 
             $my_app_url='https://play.google.com/store/apps/details?id='.$app_url;
@@ -24,7 +26,7 @@ if($result->num_rows>0) // Start if for Record Check
             echo $my_app_url;
             echo '<br>';
 
-            // End Making Urls
+            //**************** */ End Making Urls ******************************
             
 
             $app_id=$row['ID'];
@@ -53,9 +55,11 @@ if($result->num_rows>0) // Start if for Record Check
 
             $html = file_get_html($my_app_url);
 
-                //*important check if Html Found then Scrap Data Accorind to Pattern 1
+                //===================*important check if Html Found then Scrap Data Accorind to Pattern 1 ===============================================
             if($html)
             {
+                    //================================= Start Scraping Here ==============================================================
+
                 $title_dom1 = $html->find('h1.AHFaub span', 0);
                 $title_dom1=trim($title_dom1->plaintext);
                 // $title = $title_dom1.' For PC / Windows 7/8/10 / Mac';
@@ -168,12 +172,157 @@ if($result->num_rows>0) // Start if for Record Check
                 echo '<h3> Description</h3> ';
                 echo $content.'<br>'.$whats_new;
 
+                //*************************************************** End Scraping Here ************************************** */
 
 
 
-                /// Start makinking Post for here ============================================================
 
-                $post_content="";
+                ///====================================================== Start Post insertion for here ============================================================
+
+                $content_final= "<img class='alignright wp-image-69' src='$image' alt='$title_dom1 for PC' width='165' height='165' /><em><strong>$title_dom1 For PC</strong>:</em> Download $title_dom1 for PC/Mac/Windows 7,8,10 and have the fun experience of using the smartphone Apps on Desktop or personal computers. New and rising $category_name $category, $title_dom1 developed by $dev_name for Android is available for free in the Play Store. Before we move toward the installation guide of $title_dom1 on PC using Emulators, here is the official Google play link for $title_dom1, You can read the Complete Features and Description of the App there.
+                
+                <h3>About $title_dom1</h3>
+                <table>
+                <tbody>
+                <tr>
+                <td>File size:</td>
+                <td>$size</td>
+                </tr>
+                <tr>
+                <td>Category:</td>
+                <td>$category_name</td>
+                </tr>
+                <tr>
+                <td>App Title:</td>
+                <td><strong>$title_dom1</strong></td>
+                </tr>
+                <tr>
+                <td>Developed By:</td>
+                <td>$dev_name</td>
+                </tr>
+                <tr>
+                <td>Installations:</td>
+                <td>$Installs</td>
+                </tr>
+                <tr>
+                <td>Current Version:</td>
+                <td>$Current_Version</td>
+                </tr>
+                <tr>
+                <td>Req. Android:</td>
+                <td>$Req_Android</td>
+                </tr>
+                <tr>
+                <td>Last Updated:</td>
+                <td>$last_updated</td>
+                </tr>
+                <tr>
+                <td>Rating:</td>
+                <td>$rating / 5.0</td>
+                </tr>
+                </table>
+                </tbody>
+                
+                [appbox googleplay $app_url]
+                
+                We helps you to install any App/Game available on Google Play Store/iTunes Store on your PC running Windows or Mac OS. You can download apps/games to the desktop or your PC with Windows 7,8,10 OS, Mac OS X, or you can use an Emulator for Android or iOS to play the game directly on your personal computer. Here we will show you how can you download and install your fav. $category $title_dom1 on PC using the emulator, all you need to do is just follow the steps given below.
+                
+                <h2><strong>How to Download $title_dom1 for PC Windows 8.1/10/8/7 64-Bit &amp; 32-Bit Free?</strong></h2>
+                if you are a PC user using any of the OS available like Windows or Mac you can follow this step to step guide below to get $title_dom1 on your  PC. without further ado lets more towards the guide:
+                <ul>
+                    <li>For the starters Download and Install the Android Emulator of your Choice. Take a look at the list we provide here: <a href='https://appsnet.us/best-android-emulators-for-pc/' target='_blank'>Best Android Emulators For PC</a></li>
+                    <li>Upon the Completion of download and install, open the Android Emulator.</li>
+                    <li>In the next step click on the Search Button on home screen.</li>
+                    <li>Now in the search box type '$title_dom1' and get the manager in Google Play Search.</li>
+                    <li>Click on the app icon and install it.</li>
+                    <li>Once installed, find <em>$title_dom1</em> in all apps in drawer, click to open it.</li>
+                    <li>Use your mouse’s right button/click and WASD keys to use this application.</li>
+                    <li>Follow on-screen instructions to learn about $title_dom1 and use the App properly</li>
+                    <li>That’s all.</li>
+                </ul>
+                [appbox googleplay $app_url screenshots-only]
+                <h3><strong>Features of $title_dom1 for PC:</strong></h3>
+                <p class='dev-content-read'>$content $whats_new</p>
+                <h2><strong>$title_dom1 PC FAQs</strong></h2>
+                Here are some quick FAQs which you may like to go through:
+                
+                <strong>How do I install $title_dom1 on my PC?</strong>
+                
+                <strong>Ans.</strong> You can not directly install this app on your pc but with the help of the android emulator, you can do that.
+                
+                <strong>Is $title_dom1 available for pc?</strong>
+                
+                <strong>Ans.</strong> No officially not, but with this article steps, you can use it on pc.
+                
+                <strong>How do I install $title_dom1 on Windows 8,7 or 10?</strong>
+                
+                <strong>Ans.</strong> This is the same process as we install the app on our pc that is the same process for windows also.
+                
+                <strong>How do I install $title_dom1 on Mac OS X?</strong>
+                
+                <strong>Ans.</strong> This is the same process as we install the app on our pc that is the same process for windows also
+                
+                Also, make sure you share these with your friends on social media. Please check it out our more content like ";
+///                
+                $args = array( 'posts_per_page' => 1, 'orderby' => 'rand' );
+                $rand_posts = get_posts( $args );
+                foreach ( $rand_posts as $post ) : 
+                setup_postdata( $post );?>
+                <?php $id = $post->id ?>
+                <?php $content_final .="<a href='".post_permalink($id)."'> ".$post->post_title." </a></b><br>"; ?>
+                <?php endforeach;
+                
+                wp_reset_postdata();
+                
+                $content_final.="
+                <h3><strong>Conclusion</strong></h3>
+                We have discussed here <strong>$title_dom1</strong> an App from <strong>Video Editors</strong> category which is not yet available on Mac or Windows store, or there is no other version of it available on PC; So we have used an Android emulator to help us in this regard and let us use the App on our PC using the Android Emulators.
+                
+                If you are facing any issue with this app or in the installation let me know in the comment box I will help you to fix your problem. Thanks!";
+
+///
+                $postType = 'post';
+                $categoryID = '0';
+                $postStatus = 'publish';
+
+                
+                $new_post = array(
+                    'post_title' => $title_dom1,
+                    'post_name' => $app_post_slug,
+                    'post_content' => $content_final,
+                    'post_status' => $postStatus,
+                    'post_type' => $postType,
+                    'post_category' => array($categoryID)
+                    );
+
+
+
+                $post_id = wp_insert_post($new_post);
+
+                //*************************************************** */ End Post Insertion. Post Inserted IF Application is Alive on PlayStore **********************************************
+
+                $finaltext = '';
+    
+                if($post_id)
+                {
+                    
+                    $finaltext .= '<br>Yay, I made my new custom post.<br>';
+                    
+                } 
+                else
+                {
+                    
+                    $finaltext .= 'Something went wrong and I didn\'t insert a new post.<br>';
+                    
+                }
+        
+                echo $finaltext;
+                echo 'with Post Id : '.$post_id;
+        
+        
+
+
+
 
 
 
@@ -195,12 +344,89 @@ if($result->num_rows>0) // Start if for Record Check
 
             }
 
-                //*important check if Html Not Found then Display Data Accorind to Pattern 0
+                //==================================== *important check if Html Not Found then Display Data Accorind to Pattern 0 =========================================
             else
             {
                 
                 echo 'no Html Found';
-            }
+                echo '<br>';
+                echo $title_dom1=trim($app_name);
+                echo '<br>';
+                echo $category_name=trim($app_cat);
+                echo '<br>';
+                echo $dev_name=trim($app_dev);
+                echo '<br>';
+                echo $imageurl=trim($app_imgs);
+                echo '<br>';
+
+
+
+               
+
+                $postType = 'post';
+                $categoryID = '2';
+                $postStatus = 'publish';
+
+                $content_final="Error 404 ";
+                
+
+                
+                $my_new_post = array(
+                    'post_title' => $app_name,
+                    'post_name' => $app_post_slug,
+                    'post_content' => $content_final,
+                    'post_status' => $postStatus,
+                    'post_type' => $postType,
+                    'post_category' => array($categoryID)
+                    );
+
+
+
+                $my_post_id = wp_insert_post($my_new_post);
+
+                //*************************************************** */ End Post Insertion. Post Inserted IF Application is Dead on PlayStore pattern 0 **********************************************
+
+                $finaltext = '';
+    
+                if($my_post_id)
+                {
+                    
+                    $finaltext .= '<br>Yay, I made my old custom post.<br>';
+                    
+                } 
+                else
+                {
+                    
+                    $finaltext .= 'Something went wrong and I didn\'t insert a new post.<br>';
+                    
+                }
+        
+                echo $finaltext;
+                echo 'with Post Id : '.$my_post_id;
+        
+        
+
+
+
+
+
+
+
+
+
+                
+                echo '<br>';
+                echo '<br>';
+
+
+
+
+
+
+
+
+
+            }  //*********************************** */ End Post Insertion For Pattern 0 *****************************************
 
 
 
@@ -212,7 +438,7 @@ if($result->num_rows>0) // Start if for Record Check
 
 
 
-        }
+        }//End While loop
 
 
 } //End If for Records Check
@@ -221,7 +447,7 @@ if($result->num_rows>0) // Start if for Record Check
 
 else
 {
-    echo 'No Records Found';
+    echo 'No Records Found Table is Empty for Search requested';
 }
 
 $my_qry->close();
