@@ -7,7 +7,7 @@ include("simple_html_dom.php");
 
 
 
-$my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0 AND ID>=11 AND ID<=20");
+$my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0 AND ID>=1 AND ID<=200");
 // $my_qry=$con->prepare("SELECT * FROM app_data WHERE availability_status=0 AND playstore=0 AND ID BETWEEN 20341 AND 20345");
 $my_qry->execute();
 $result=$my_qry->get_result();
@@ -81,7 +81,7 @@ if($result->num_rows>0) // Start if for Record Check
 
             if ($typ_error=="We're sorry, the requested URL was not found on this server.")
             {
-                echo "Exist";
+                // echo "Exist";
 
 
                 echo '<br>';
@@ -203,6 +203,12 @@ if($result->num_rows>0) // Start if for Record Check
                 
                 If you are facing any issue with this app or in the installation let me know in the comment box I will help you to fix your problem. Thanks!";
 
+                $excp_qry=$con->prepare("UPDATE app_data SET availability_status=1, playstore=0 WHERE ID=$app_id");
+                $excp_qry->execute();
+                $excp_qry->close();
+                $live_status=0;
+                $last_updated="NULL";
+
 
                     //*************************************************** */ End Content Making IF Application is Dead on PlayStore pattern 0 **********************************************
 
@@ -283,8 +289,8 @@ if($result->num_rows>0) // Start if for Record Check
 
                 $title_dom1 = $html->find('h1.AHFaub span', 0);
                 $title_dom1=trim($title_dom1->plaintext);
-                // $title = $title_dom1.' For PC / Windows 7/8/10 / Mac';
-                $title = $title_dom1;
+                $title = $title_dom1.' For PC / Windows 7/8/10 / Mac';
+                // $title = $title_dom1;
                 echo '<h3>Application Title: '.$title.'</h3>';
                 //var_dump("Name: ".$title);
             
@@ -331,8 +337,21 @@ if($result->num_rows>0) // Start if for Record Check
                 echo '<br>';
                 //var_dump("Total Ratings: ".$total_ratings);
             
-                $last_updated = $html->find('span[class=htlgb]', 0);
+                $lasts_updated = $html->find('span[class=htlgb]', 0);
+                $lasts_updated=trim($lasts_updated->plaintext);
+
+                if($lasts_updated=="Learn More")
+                {
+                $last_updated = $html->find('span[class=htlgb]', 2);
                 $last_updated=trim($last_updated->plaintext);
+                // echo 'If Running '.$last_updated;
+                }
+
+                else
+                {
+                    // echo 'Else Runing '.$last_updated;
+                    $last_updated=$lasts_updated;
+                }
                 echo '<h3>Last Updated On : '.$last_updated.'</h3>';
                 
                 echo '<br>';
@@ -502,6 +521,14 @@ if($result->num_rows>0) // Start if for Record Check
                 
                 If you are facing any issue with this app or in the installation let me know in the comment box I will help you to fix your problem. Thanks!";
 
+
+
+                $m_qry=$con->prepare("UPDATE app_data SET availability_status=1, playstore=1 WHERE ID=$app_id");
+                $m_qry->execute();
+                $m_qry->close();
+
+                $live_status=1;
+
 ///
                 // $postType = 'post';
                 // $categoryID = '0';
@@ -663,8 +690,10 @@ if($result->num_rows>0) // Start if for Record Check
 
 
 
-            $my_query=$con->prepare("INSERT INTO post_records(url,post_id, post_title,pstore_status,updated_on,update_status,app_data_id) VALUES(?,?,?,?,?,?,?)");
-            // $my_query->bind_param("sssssss",$my_app_url,$post_id,$live_status,)
+            $my_query=$con->prepare("INSERT INTO post_records(url,post_id, post_title,pstore_status,updated_on,app_data_id) VALUES(?,?,?,?,?,?)");
+            $my_query->bind_param("ssssss",$my_app_url,$post_id,$title,$live_status,$last_updated,$app_id);
+            $my_query->execute();
+            $my_query->close();
 
 
 
