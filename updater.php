@@ -5,7 +5,7 @@ require_once("../wp-load.php");
 include("connection.php");
 include("simple_html_dom.php");
 
-$qry=$con->prepare("SELECT * FROM post_records WHERE pstore_status=1 AND update_status=0 AND id <=65");
+$qry=$con->prepare("SELECT * FROM post_records WHERE pstore_status=1 AND update_status=0 AND id <=270");
 $qry->execute();
 $result=$qry->get_result();
 if($result->num_rows>0)
@@ -45,27 +45,46 @@ if($result->num_rows>0)
                     $html= new simple_html_dom();
                     $html->load($output);
 
+//================================================================= Start Scrap and Check date with DB ==================================
+                    // $lasts_updated = $html->find('span[class=htlgb]', 0);
+                    // $lasts_updated=trim($lasts_updated->plaintext);
 
-                    $lasts_updated = $html->find('span[class=htlgb]', 0);
-                    $lasts_updated=trim($lasts_updated->plaintext);
+                    // if($lasts_updated=="Learn More")
+                    // {
+                    // $lastt_updated = $html->find('span[class=htlgb]', 2);
+                    // $last_update=trim($lastt_updated->plaintext);
+                    // // echo 'If Running '.$last_updated;
+                    // }
 
-                    if($lasts_updated=="Learn More")
+                    // else
+                    // {
+                    //     // echo 'Else Runing ';
+
+                    //     $last_update=$lasts_updated;
+
+                    //     // echo $last_updated;
+                    // }
+
+
+                    $chk = $html->find('div[class=BgcNfc]', 0);
+                    $mychk=trim($chk->plaintext);
+
+                    if($mychk=="Updated")
                     {
-                    $lastt_updated = $html->find('span[class=htlgb]', 2);
-                    $last_update=trim($lastt_updated->plaintext);
-                    // echo 'If Running '.$last_updated;
+                        $lasts_updated = $html->find('span[class=htlgb]', 0);
+                        $last_update=trim($lasts_updated->plaintext);
+
+                        // echo "IF Last date = ".$last_updated;
+                        // echo'<br>';
                     }
 
                     else
                     {
-                        // echo 'Else Runing ';
-
-                        $last_update=$lasts_updated;
-
-                        // echo $last_updated;
+                        $lasts_updated = $html->find('span[class=htlgb]',2);
+                        $last_update=trim($lasts_updated->plaintext);
                     }
 
-
+//************************************************************End Date Scraping for DB Check ***************************************************** */
 
                     if($last_update==$lst_up_date) //if last updated date matches
 
@@ -84,7 +103,7 @@ if($result->num_rows>0)
 
                     else
                     {
-                        //================================= Start Scraping Here ==============================================================
+                        //================================= Start Scraping Here For Updater ==============================================================
 
                         $title_dom1 = $html->find('h1.AHFaub span', 0);
                         $title_dom1=trim($title_dom1->plaintext);
@@ -135,22 +154,45 @@ if($result->num_rows>0)
                         
                         echo '<br>';
                         //var_dump("Total Ratings: ".$total_ratings);
-                    
-                        $lasts_updated = $html->find('span[class=htlgb]', 0);
-                        $lasts_updated=trim($lasts_updated->plaintext);
 
-                        if($lasts_updated=="Learn More")
+                        //================================================================== Start Scraping Date ===========================================================
+                    
+                        // $lasts_updated = $html->find('span[class=htlgb]', 0);
+                        // $lasts_updated=trim($lasts_updated->plaintext);
+
+                        // if($lasts_updated=="Learn More")
+                        // {
+                        // $last_updated = $html->find('span[class=htlgb]', 2);
+                        // $last_updated=trim($last_updated->plaintext);
+                        // // echo 'If Running '.$last_updated;
+                        // }
+
+                        // else
+                        // {
+                        //     // echo 'Else Runing '.$last_updated;
+                        //     $last_updated=$lasts_updated;
+                        // }
+
+
+                        $chk = $html->find('div[class=BgcNfc]', 0);
+                        $mychk=trim($chk->plaintext);
+
+                        if($mychk=="Updated")
                         {
-                        $last_updated = $html->find('span[class=htlgb]', 2);
-                        $last_updated=trim($last_updated->plaintext);
-                        // echo 'If Running '.$last_updated;
+                            $lasts_updated = $html->find('span[class=htlgb]', 0);
+                            $last_updated=trim($lasts_updated->plaintext);
+
+                            // echo "IF Last date = ".$last_updated;
+                            // echo'<br>';
                         }
 
                         else
                         {
-                            // echo 'Else Runing '.$last_updated;
-                            $last_updated=$lasts_updated;
+                            $lasts_updated = $html->find('span[class=htlgb]',2);
+                            $last_updated=trim($lasts_updated->plaintext);
                         }
+
+                        //************************************************************ End Scraping Date ******************************************************************** */
                         echo '<h3>Last Updated On : '.$last_updated.'</h3>';
                         
                         echo '<br>';
@@ -461,7 +503,7 @@ if($result->num_rows>0)
 
 else
 {
-    echo "No Record found Against Search";
+    echo "No Record found Against Search Every Thing is Uptodate";
 }
 
 ?>

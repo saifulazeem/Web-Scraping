@@ -336,22 +336,48 @@ if($result->num_rows>0) // Start if for Record Check
                 
                 echo '<br>';
                 //var_dump("Total Ratings: ".$total_ratings);
-            
-                $lasts_updated = $html->find('span[class=htlgb]', 0);
-                $lasts_updated=trim($lasts_updated->plaintext);
+            //================================================================================ Start Date Scraping======================================
+                // $lasts_updated = $html->find('span[class=htlgb]', 0);
+                // $lasts_updated=trim($lasts_updated->plaintext);
 
-                if($lasts_updated=="Learn More")
-                {
-                $last_updated = $html->find('span[class=htlgb]', 2);
-                $last_updated=trim($last_updated->plaintext);
-                // echo 'If Running '.$last_updated;
-                }
+                // if($lasts_updated=="Learn More")
+                // {
+                // $last_updated = $html->find('span[class=htlgb]', 2);
+                // $last_updated=trim($last_updated->plaintext);
+                // // echo 'If Running '.$last_updated;
+                // }
 
-                else
-                {
-                    // echo 'Else Runing '.$last_updated;
-                    $last_updated=$lasts_updated;
-                }
+                // else
+                // {
+                //     // echo 'Else Runing '.$last_updated;
+                //     $last_updated=$lasts_updated;
+                // }
+
+                $chk = $html->find('div[class=BgcNfc]', 0);
+                    $mychk=trim($chk->plaintext);
+
+                    if($mychk=="Updated")
+                    {
+                        $lasts_updated = $html->find('span[class=htlgb]', 0);
+                        $last_updated=trim($lasts_updated->plaintext);
+
+                        // echo "IF Last date = ".$last_updated;
+                        // echo'<br>';
+                    }
+
+                    else
+                    {
+                        $lasts_updated = $html->find('span[class=htlgb]',2);
+                        $last_updated=trim($lasts_updated->plaintext);
+                    }
+
+
+
+
+
+
+
+                //***************************************************************End Date Scraping ******************************************************** */
                 echo '<h3>Last Updated On : '.$last_updated.'</h3>';
                 
                 echo '<br>';
