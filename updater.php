@@ -5,7 +5,7 @@ require_once("../wp-load.php");
 include("connection.php");
 include("simple_html_dom.php");
 
-$qry=$con->prepare("SELECT * FROM post_records WHERE pstore_status=1 AND update_status=0 AND id <=310");
+$qry=$con->prepare("SELECT * FROM post_records WHERE pstore_status=1 AND update_status=0");
 $qry->execute();
 $result=$qry->get_result();
 if($result->num_rows>0)
@@ -386,120 +386,166 @@ if($result->num_rows>0)
                             If you are facing any issue with this app or in the installation let me know in the comment box I will help you to fix your problem. Thanks!";
 
 
+                            // if($post_id==NULL)
+                            // {
+                            //     if ($category_name == 'Action')
+                            //     {
+                            //         $category_id  =19;
+                            //     }
+                            //     else if ($category_name == 'Adventure') 
+                            //     {
+                            //         $category_id  =18;
+                            //     }
+                            //     else if ($category_name == 'Arcade') 
+                            //     {
+                            //         $category_id  =3;
+                            //     }
+                            //     else if ($category_name == 'Card') 
+                            //     {
+                            //         $category_id  =4;
+                            //     }
+                            //     else if ($category_name == 'Casino') 
+                            //     {
+                            //         $category_id  =5;
+                            //     }
+                            //     else if ($category_name == 'Casual') 
+                            //     {
+                            //         $category_id =6;
+                            //     }
+                            //     else if ($category_name == 'Educational') 
+                            //     {
+                            //         $category_id =7;
+                            //     }
+                            //     else if ($category_name == 'Music') 
+                            //     {
+                            //         $category_id =8;
+                            //     }
+                            //     else if ($category_name == 'Puzzle') 
+                            //     {
+                            //         $category_id =9;
+                            //     }
+                            //     else if ($category_name == 'Racing') 
+                            //     {
+                            //         $category_id =10;
+                            //     }
+                            //     else if ($category_name == 'Role Playing') 
+                            //     {
+                            //         $category_id =11;
+                            //     }
+                            //     else if ($category_name == 'Simulation') 
+                            //     {
+                            //         $category_id =12;
+                            //     }
+                            //     else if ($category_name == 'Sports') 
+                            //     {
+                            //         $category_id =13;
+                            //     }
+                            //     else if ($category_name == 'Strategy') 
+                            //     {
+                            //         $category_id =14;
+                            //     }
+                            //     else if ($category_name == 'Trivia') 
+                            //     {
+                            //         $category_id =15;
+                            //     }
+                            //     else if ($category_name == 'Word') 
+                            //     {
+                            //         $category_id =16;
+                            //     }
+                            //     else
+                            //     {
+                            //         $category_id =17;
+                            //     }
+                    
+                    
+                            //     $postType = 'post';
+                            //     $categoryID = $category_id;
+                            //     $postStatus = 'publish';
+                    
+                                    
+                            //     $new_post = array(
+                            //             'post_title' => $title_dom1,
+                            //             'post_name' => $app_post_slug,
+                            //             'post_content' => $content_final,
+                            //             'post_status' => $postStatus,
+                            //             'post_type' => $postType,
+                            //             'post_category' => array($categoryID)
+                            //             );
+                    
+                    
+                    
+                            //     $new_post_id = wp_insert_post($new_post);
+                    
+                            //     $finaltext = '';
+                        
+                            //     if($new_post_id)
+                            //     {
+                                    
+                            //         $finaltext .= '<br>Yay, I made my new custom post.<br>';
+                            //         $q=$con->prepare("UPDATE post_records SET post_id=$new_post_id, post_title='$title', updated_on='$last_update' WHERE id=$record_id");
+                            //         $q->execute();
+                            //         $q->close();
+                                    
+                            //     } 
+                            //     else
+                            //     {
+                                    
+                            //         $finaltext .= 'Something went wrong and I didn\'t insert a new post.<br>';
+                                    
+                            //     }
+                        
+                            //     echo $finaltext;
+                            //     echo '<br>';
+                            //     echo 'with Post Id : '.$new_post_id;
 
-                            // $m_qry=$con->prepare("UPDATE app_data SET availability_status=1, playstore=1 WHERE ID=$app_id");
-                            // $m_qry->execute();
-                            // $m_qry->close();
 
-                            // if ($category_name == 'Action')
-                            // {
-                            //     $category_id  =19;
-                            // }
-                            // else if ($category_name == 'Adventure') 
-                            // {
-                            //     $category_id  =18;
-                            // }
-                            // else if ($category_name == 'Arcade') 
-                            // {
-                            //     $category_id  =3;
-                            // }
-                            // else if ($category_name == 'Card') 
-                            // {
-                            //     $category_id  =4;
-                            // }
-                            // else if ($category_name == 'Casino') 
-                            // {
-                            //     $category_id  =5;
-                            // }
-                            // else if ($category_name == 'Casual') 
-                            // {
-                            //     $category_id =6;
-                            // }
-                            // else if ($category_name == 'Educational') 
-                            // {
-                            //     $category_id =7;
-                            // }
-                            // else if ($category_name == 'Music') 
-                            // {
-                            //     $category_id =8;
-                            // }
-                            // else if ($category_name == 'Puzzle') 
-                            // {
-                            //     $category_id =9;
-                            // }
-                            // else if ($category_name == 'Racing') 
-                            // {
-                            //     $category_id =10;
-                            // }
-                            // else if ($category_name == 'Role Playing') 
-                            // {
-                            //     $category_id =11;
-                            // }
-                            // else if ($category_name == 'Simulation') 
-                            // {
-                            //     $category_id =12;
-                            // }
-                            // else if ($category_name == 'Sports') 
-                            // {
-                            //     $category_id =13;
-                            // }
-                            // else if ($category_name == 'Strategy') 
-                            // {
-                            //     $category_id =14;
-                            // }
-                            // else if ($category_name == 'Trivia') 
-                            // {
-                            //     $category_id =15;
-                            // }
-                            // else if ($category_name == 'Word') 
-                            // {
-                            //     $category_id =16;
-                            // }
+
+                                
+
+                            // }//End If for post_id chek if Null  
+
                             // else
                             // {
-                            //     $category_id =17;
-                            // }
-                
-                
-                            // $postType = 'post';
-                            // $categoryID = $category_id;
-                            // $postStatus = 'publish';
 
-                            $my_updated_post= array(
-                                'ID'           => $post_id,
-                                'post_title'   => $ptitle,
-                                'post_content' => $content_final,
-                                
-
-                            );
-
-                            $post_chk=wp_update_post( $my_updated_post );
-
-
-                            $finaltext = '';
-                    
-                            if($post_chk)
-                            {
-                                
-                                $finaltext .= '<br>Yay, I made my new custom post.<br>';
-                                echo '<br>';
-                                echo 'Recod Updated with Post Id : '.$post_chk;
-
-                                $m_qry=$con->prepare("UPDATE post_records SET update_status=2, updated_on='$last_update' WHERE id=$record_id");
-                                $m_qry->execute();
-                                $m_qry->close();
-                                
-                            } 
-                            else
-                            {
-                                
-                                $finaltext .= 'Something went wrong and I didn\'t insert a new post.<br>';
-                                
-                            }
-                    
-                            echo $finaltext;
-                            echo '<br>';
                             
+
+                                    $my_updated_post= array(
+                                        'ID'           => $post_id,
+                                        'post_title'   => $ptitle,
+                                        'post_content' => $content_final,
+                                        
+
+                                    );
+
+                                    $post_chk=wp_update_post( $my_updated_post );
+
+
+                                    $finaltext = '';
+                            
+                                    if($post_chk)
+                                    {
+                                        
+                                        $finaltext .= '<br>Yay, I made my new custom post.<br>';
+                                        echo '<br>';
+                                        echo 'Recod Updated with Post Id : '.$post_chk;
+
+                                        $m_qry=$con->prepare("UPDATE post_records SET update_status=2, updated_on='$last_update' WHERE id=$record_id");
+                                        $m_qry->execute();
+                                        $m_qry->close();
+                                        
+                                    } 
+                                    else
+                                    {
+                                        
+                                        $finaltext .= 'Something went wrong and I didn\'t insert a new post.<br>';
+                                        
+                                    }
+                            
+                                    echo $finaltext;
+                                    echo '<br>';
+                                    
+
+                            //}//Close Else for Post Id check if Not Null
 
 
 
